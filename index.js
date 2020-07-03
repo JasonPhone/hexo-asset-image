@@ -65,7 +65,6 @@ hexo.extend.filter.register('after_post_render', function(data){
             // and store my images in relative paths (post_asset_folder=true)
             // I only need to convert ![](yyyy-mm-dd-title/img.png)
             // into <img src="/yyyy/mm/dd/title/img.png" alt="">
-
             link = data.permalink;
             link = link.substr(beginPos);
             $(this).attr('src', config.root + link + src);

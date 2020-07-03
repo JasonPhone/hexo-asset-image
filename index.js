@@ -10,7 +10,9 @@ hexo.extend.filter.register('after_post_render', function(data){
   var config = hexo.config;
   if(config.post_asset_folder){
     var link = data.permalink;
+    // console.info&&console.info("link is " + link);
     var beginPos = getPosition(link, '/', 3) + 1;
+    // console.info&&console.info("beginPos is " + beginPos);
     var appendLink = '';
     // In hexo 3.1.1, the permalink of "about" page is like ".../about/index.html".
     // if not with index.html endpos = link.lastIndexOf('.') + 1 support hexo-abbrlink
@@ -21,7 +23,7 @@ hexo.extend.filter.register('after_post_render', function(data){
       var endPos = link.lastIndexOf('/');
     }
     else {
-      var endPos = link.length-1;
+      var endPos = link.lastIndexOf('.');
     }
     link = link.substring(beginPos, endPos) + '/' + appendLink;
 
@@ -55,8 +57,18 @@ hexo.extend.filter.register('after_post_render', function(data){
             srcArray.shift();
             src = srcArray.join('/');
 
+            // $(this).attr('src', config.root + link + src);
+            // console.info&&console.info("update link as:-->"+ config.root + link + src);
+
+            // here is my modification
+            // as I use simple blog file sructure like http://domain/yyyy/mm/dd/title-of-a-single-article
+            // and store my images in relative paths (post_asset_folder=true)
+            // I only need to convert ![](yyyy-mm-dd-title/img.png)
+            // into <img src="/yyyy/mm/dd/title/img.png" alt="">
+            link = data.permalink;
+            link = link.substr(beginPos);
             $(this).attr('src', config.root + link + src);
-            console.info&&console.info("update link as:-->"+config.root + link + src);
+            console.info&&console.info("update link as:-->"+ config.root + link + src);
           }
         }else{
           console.info&&console.info("no src attr, skipped...");

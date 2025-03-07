@@ -3,7 +3,7 @@
 
 Give asset image in hexo a absolutely path automatically
 
-# Usege
+# Usage
 
 ```shell
 npm install hexo-asset-image --save
